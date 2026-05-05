@@ -52,6 +52,12 @@
     return reqAsPromise(store.get(id));
   }
 
+  function numOrEmpty(v) {
+    if (v === '' || v == null) return '';
+    const n = Number(v);
+    return isFinite(n) ? n : '';
+  }
+
   function normalize(input) {
     const m = Object.assign({}, input);
     if (!m.id) m.id = Util.uuid();
@@ -59,13 +65,14 @@
     if (!m.matchDate) m.matchDate = Util.todayIso();
     m.iy05Percent = Number(m.iy05Percent) || 0;
     m.karmaPercent = Number(m.karmaPercent) || 0;
-    m.htHome = Number(m.htHome) || 0;
-    m.htAway = Number(m.htAway) || 0;
-    m.ftHome = Number(m.ftHome) || 0;
-    m.ftAway = Number(m.ftAway) || 0;
+    m.htHome = numOrEmpty(m.htHome);
+    m.htAway = numOrEmpty(m.htAway);
+    m.ftHome = numOrEmpty(m.ftHome);
+    m.ftAway = numOrEmpty(m.ftAway);
     m.league = (m.league || '').trim();
     m.homeTeam = (m.homeTeam || '').trim();
     m.awayTeam = (m.awayTeam || '').trim();
+    m.finalScore = (m.finalScore || '').toString().trim();
     m.rawOcrText = m.rawOcrText || '';
     Object.assign(m, Util.deriveFields(m));
     return m;

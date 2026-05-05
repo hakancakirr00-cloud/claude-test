@@ -5,6 +5,7 @@
     entry: ViewEntry.render,
     list: ViewList.render,
     stats: ViewDashboard.render,
+    report: ViewReport.render,
     evaluate: ViewEvaluate.render
   };
 

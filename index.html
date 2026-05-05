@@ -13,6 +13,7 @@
       <a href="#/entry" data-route="entry">Veri Girişi</a>
       <a href="#/list" data-route="list">Geçmiş Maçlar</a>
       <a href="#/stats" data-route="stats">İstatistik</a>
+      <a href="#/report" data-route="report">Rapor</a>
       <a href="#/evaluate" data-route="evaluate">Değerlendir</a>
     </nav>
     <div class="kpi" id="topKpi"></div>
@@ -107,6 +108,17 @@
     </section>
   </template>
 
+  <template id="tpl-report">
+    <section class="view view-report">
+      <h2>Rapor</h2>
+      <div class="report-controls">
+        <label>Tarih (gg.aa)<input type="text" id="reportDateFilter" placeholder="örn. 03.04 — boş bırakırsan tümü" /></label>
+        <button id="reportCopyBtn" type="button">Raporu Kopyala</button>
+      </div>
+      <pre id="reportOutput" class="report-output"></pre>
+    </section>
+  </template>
+
   <template id="tpl-evaluate">
     <section class="view view-evaluate">
       <h2>Yeni Maç Değerlendir</h2>
@@ -144,6 +156,7 @@
   <script src="assets/js/views/entry.js"></script>
   <script src="assets/js/views/list.js"></script>
   <script src="assets/js/views/dashboard.js"></script>
+  <script src="assets/js/views/report.js"></script>
   <script src="assets/js/views/evaluate.js"></script>
   <script src="assets/js/app.js"></script>
 </body>

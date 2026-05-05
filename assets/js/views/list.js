@@ -108,8 +108,8 @@
       <td>${esc(m.homeTeam)} - ${esc(m.awayTeam)}</td>
       <td>${m.iy05Percent}</td>
       <td>${m.karmaPercent}</td>
-      <td>${m.htHome}-${m.htAway}</td>
-      <td>${m.ftHome}-${m.ftAway}</td>
+      <td>${fmtScore(m.htHome, m.htAway)}</td>
+      <td>${fmtScore(m.ftHome, m.ftAway, m.finalScore)}</td>
       <td class="${m.iy05Hit ? 'hit' : 'miss'}">${m.iy05Hit ? '✓' : '✗'}</td>
       <td class="${m.ms15Hit ? 'hit' : 'miss'}">${m.ms15Hit ? '✓' : '✗'}</td>
       <td>
@@ -158,6 +158,13 @@
       }
     });
     tr.replaceWith(editTr);
+  }
+
+  function fmtScore(h, a, fallback) {
+    if (h === '' || h == null || a === '' || a == null) {
+      return fallback ? esc(fallback) : '<span class="muted">—</span>';
+    }
+    return `${h}-${a}`;
   }
 
   function esc(s) {

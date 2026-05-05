@@ -76,6 +76,22 @@ main { padding: 20px; max-width: 1200px; margin: 0 auto; }
 .paste-block .row { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
 button.ghost { background: var(--bg-elev-2); border-color: var(--border); color: var(--text); }
 
+.report-controls { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin-bottom: 12px; }
+.report-controls label { display: flex; flex-direction: column; font-size: 12px; color: var(--text-dim); gap: 4px; }
+.report-output {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  white-space: pre-wrap;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  overflow: auto;
+}
+.muted { color: var(--text-dim); }
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

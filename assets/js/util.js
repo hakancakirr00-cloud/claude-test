@@ -25,12 +25,21 @@
     return false;
   }
 
+  function hasHt(m) {
+    return m.htHome !== '' && m.htHome != null && m.htAway !== '' && m.htAway != null;
+  }
+  function hasFt(m) {
+    return m.ftHome !== '' && m.ftHome != null && m.ftAway !== '' && m.ftAway != null;
+  }
+
   function deriveFields(m) {
     const ht = (Number(m.htHome) || 0) + (Number(m.htAway) || 0);
     const ft = (Number(m.ftHome) || 0) + (Number(m.ftAway) || 0);
+    const iy05 = hasHt(m) ? (ht >= 1) : (typeof m.iy05Hit === 'boolean' ? m.iy05Hit : false);
+    const ms15 = hasFt(m) ? (ft >= 2) : (typeof m.ms15Hit === 'boolean' ? m.ms15Hit : false);
     return {
-      iy05Hit: ht >= 1,
-      ms15Hit: ft >= 2,
+      iy05Hit: iy05,
+      ms15Hit: ms15,
       iy05Bucket: bucketOf(m.iy05Percent),
       karmaBucket: bucketOf(m.karmaPercent)
     };
