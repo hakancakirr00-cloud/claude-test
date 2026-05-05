@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bahis Analiz Sistemi</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Bahis Analiz</h1>
+    <nav class="tabs">
+      <a href="#/entry" data-route="entry">Veri Girişi</a>
+      <a href="#/list" data-route="list">Geçmiş Maçlar</a>
+      <a href="#/stats" data-route="stats">İstatistik</a>
+      <a href="#/evaluate" data-route="evaluate">Değerlendir</a>
+    </nav>
+    <div class="kpi" id="topKpi"></div>
+  </header>
+
+  <main id="view"></main>
+
+  <template id="tpl-entry">
+    <section class="view view-entry">
+      <h2>Veri Girişi</h2>
+      <div class="dropzone" id="dropzone">
+        <p>Görselleri buraya sürükle veya tıklayıp seç (çoklu destek)</p>
+        <input type="file" id="fileInput" accept="image/*" multiple hidden />
+      </div>
+      <div id="ocrQueue" class="queue"></div>
+
+      <details class="manual">
+        <summary>Manuel ekle (görselsiz)</summary>
+        <form id="manualForm" class="form-grid">
+          <label>Tarih<input type="date" name="matchDate" required /></label>
+          <label>Lig<input type="text" name="league" list="leagueList" required /></label>
+          <label>Ev sahibi<input type="text" name="homeTeam" /></label>
+          <label>Deplasman<input type="text" name="awayTeam" /></label>
+          <label>İY 0.5 %<input type="number" name="iy05Percent" min="0" max="100" step="0.1" required /></label>
+          <label>Karma %<input type="number" name="karmaPercent" min="0" max="100" step="0.1" required /></label>
+          <label>İY ev<input type="number" name="htHome" min="0" required /></label>
+          <label>İY dep<input type="number" name="htAway" min="0" required /></label>
+          <label>MS ev<input type="number" name="ftHome" min="0" required /></label>
+          <label>MS dep<input type="number" name="ftAway" min="0" required /></label>
+          <button type="submit">Kaydet</button>
+        </form>
+      </details>
+
+      <datalist id="leagueList"></datalist>
+    </section>
+  </template>
+
+  <template id="tpl-list">
+    <section class="view view-list">
+      <h2>Geçmiş Maçlar</h2>
+      <div class="filters">
+        <label>Lig<select id="filterLeague"><option value="">(hepsi)</option></select></label>
+        <label>İY 0.5 aralığı<select id="filterIy05">
+          <option value="">(hepsi)</option><option>70-75</option><option>76-81</option><option>81+</option><option>&lt;70</option>
+        </select></label>
+        <label>Karma aralığı<select id="filterKarma">
+          <option value="">(hepsi)</option><option>70-75</option><option>76-81</option><option>81+</option><option>&lt;70</option>
+        </select></label>
+        <label>Pazar<select id="filterMarket">
+          <option value="">(hepsi)</option>
+          <option value="iy05Hit">İY 0.5 ✓</option><option value="iy05Miss">İY 0.5 ✗</option>
+          <option value="ms15Hit">MS 1.5 ✓</option><option value="ms15Miss">MS 1.5 ✗</option>
+        </select></label>
+        <label>Ara<input type="text" id="filterText" placeholder="takım/lig" /></label>
+        <button id="exportBtn">Export JSON</button>
+        <label class="btn">Import<input type="file" id="importInput" accept="application/json" hidden /></label>
+        <button id="clearAllBtn" class="danger">Tümünü Sil</button>
+      </div>
+      <div class="count" id="listCount"></div>
+      <table class="match-table">
+        <thead><tr>
+          <th>Tarih</th><th>Lig</th><th>Maç</th>
+          <th>İY 0.5 %</th><th>Karma %</th>
+          <th>İY</th><th>MS</th>
+          <th>İY 0.5</th><th>MS 1.5</th><th></th>
+        </tr></thead>
+        <tbody id="matchRows"></tbody>
+      </table>
+    </section>
+  </template>
+
+  <template id="tpl-stats">
+    <section class="view view-stats">
+      <h2>İstatistik Dashboard</h2>
+      <div class="kpi-row" id="kpiRow"></div>
+      <h3>Lig bazlı isabet</h3>
+      <div class="chart-wrap"><canvas id="chartLeague"></canvas></div>
+      <h3>İY 0.5 yüzde aralığı isabet</h3>
+      <div class="chart-wrap"><canvas id="chartBucketIy"></canvas></div>
+      <h3>Karma yüzde aralığı isabet (MS 1.5)</h3>
+      <div class="chart-wrap"><canvas id="chartBucketKarma"></canvas></div>
+      <h3>Lig × Aralık çapraz tablo (İY 0.5 üst)</h3>
+      <div class="table-scroll"><table id="crossTableIy"></table></div>
+      <h3>Lig × Aralık çapraz tablo (MS 1.5 üst)</h3>
+      <div class="table-scroll"><table id="crossTableMs"></table></div>
+    </section>
+  </template>
+
+  <template id="tpl-evaluate">
+    <section class="view view-evaluate">
+      <h2>Yeni Maç Değerlendir</h2>
+      <form id="evalForm" class="form-grid">
+        <label>Lig<input type="text" name="league" list="leagueList" required /></label>
+        <label>Ev sahibi<input type="text" name="homeTeam" /></label>
+        <label>Deplasman<input type="text" name="awayTeam" /></label>
+        <label>İY 0.5 %<input type="number" name="iy05Percent" min="0" max="100" step="0.1" required /></label>
+        <label>Karma %<input type="number" name="karmaPercent" min="0" max="100" step="0.1" required /></label>
+        <button type="submit">Değerlendir</button>
+      </form>
+      <div id="evalResult"></div>
+    </section>
+  </template>
+
+  <template id="tpl-edit-row">
+    <tr class="edit-row">
+      <td><input type="date" name="matchDate" /></td>
+      <td><input type="text" name="league" /></td>
+      <td><input type="text" name="homeTeam" placeholder="ev" /> - <input type="text" name="awayTeam" placeholder="dep" /></td>
+      <td><input type="number" name="iy05Percent" min="0" max="100" step="0.1" /></td>
+      <td><input type="number" name="karmaPercent" min="0" max="100" step="0.1" /></td>
+      <td><input type="number" name="htHome" min="0" />-<input type="number" name="htAway" min="0" /></td>
+      <td><input type="number" name="ftHome" min="0" />-<input type="number" name="ftAway" min="0" /></td>
+      <td colspan="2"></td>
+      <td><button data-action="save">Kaydet</button><button data-action="cancel">İptal</button></td>
+    </tr>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/stats.js"></script>
+  <script src="assets/js/confidence.js"></script>
+  <script src="assets/js/parser.js"></script>
+  <script src="assets/js/ocr.js"></script>
+  <script src="assets/js/views/entry.js"></script>
+  <script src="assets/js/views/list.js"></script>
+  <script src="assets/js/views/dashboard.js"></script>
+  <script src="assets/js/views/evaluate.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
