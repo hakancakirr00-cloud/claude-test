@@ -23,14 +23,20 @@
   <template id="tpl-entry">
     <section class="view view-entry">
       <h2>Veri Girişi</h2>
-      <div class="dropzone" id="dropzone">
-        <p>Görselleri buraya sürükle veya tıklayıp seç (çoklu destek)</p>
-        <input type="file" id="fileInput" accept="image/*" multiple hidden />
-      </div>
-      <div id="ocrQueue" class="queue"></div>
 
-      <details class="manual">
-        <summary>Manuel ekle (görselsiz)</summary>
+      <section class="paste-block">
+        <h3>JSON yapıştır</h3>
+        <p class="hint">Tek maç (obje) veya çoklu maç (dizi) yapıştırabilirsin. Sonra <strong>Ekle</strong>'ye bas.</p>
+        <textarea id="jsonPaste" rows="6" placeholder='{"league":"Bundesliga","homeTeam":"Bayern","awayTeam":"Dortmund","iy05Percent":78,"karmaPercent":84,"htHome":1,"htAway":0,"ftHome":3,"ftAway":1,"matchDate":"2026-05-04"}'></textarea>
+        <div class="row">
+          <button id="jsonAddBtn" type="button">Ekle</button>
+          <button id="jsonClearBtn" type="button" class="ghost">Temizle</button>
+          <span id="jsonHint" class="hint"></span>
+        </div>
+      </section>
+
+      <section class="manual-block">
+        <h3>Manuel ekle</h3>
         <form id="manualForm" class="form-grid">
           <label>Tarih<input type="date" name="matchDate" required /></label>
           <label>Lig<input type="text" name="league" list="leagueList" required /></label>
@@ -44,7 +50,7 @@
           <label>MS dep<input type="number" name="ftAway" min="0" required /></label>
           <button type="submit">Kaydet</button>
         </form>
-      </details>
+      </section>
 
       <datalist id="leagueList"></datalist>
     </section>
@@ -130,14 +136,11 @@
     </tr>
   </template>
 
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="assets/js/util.js"></script>
   <script src="assets/js/db.js"></script>
   <script src="assets/js/stats.js"></script>
   <script src="assets/js/confidence.js"></script>
-  <script src="assets/js/parser.js"></script>
-  <script src="assets/js/ocr.js"></script>
   <script src="assets/js/views/entry.js"></script>
   <script src="assets/js/views/list.js"></script>
   <script src="assets/js/views/dashboard.js"></script>

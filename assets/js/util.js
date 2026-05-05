@@ -3,6 +3,13 @@
 
   const BUCKETS = ['<70', '70-75', '76-81', '81+'];
 
+  const KNOWN_LEAGUES = [
+    'Süper Lig', 'TFF 1. Lig', 'Premier League', 'La Liga', 'Serie A',
+    'Bundesliga', 'Ligue 1', 'Eredivisie', 'Primeira Liga', 'Championship',
+    'Champions League', 'Europa League', 'MLS',
+    'Brasileirao', 'Argentina Primera', 'Saudi Pro League'
+  ];
+
   function bucketOf(percent) {
     const p = Number(percent);
     if (!isFinite(p)) return '<70';
@@ -64,6 +71,7 @@
 
   global.Util = {
     BUCKETS,
+    KNOWN_LEAGUES,
     bucketOf,
     marketHit,
     deriveFields,

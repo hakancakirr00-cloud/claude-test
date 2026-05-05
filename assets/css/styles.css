@@ -60,33 +60,21 @@ main { padding: 20px; max-width: 1200px; margin: 0 auto; }
 .view { animation: fade .15s ease; }
 @keyframes fade { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: none; } }
 
-.dropzone {
-  border: 2px dashed var(--border);
-  border-radius: var(--radius);
-  padding: 40px;
-  text-align: center;
-  cursor: pointer;
-  color: var(--text-dim);
-  transition: background .15s, border-color .15s;
-}
-.dropzone:hover, .dropzone.drag { background: var(--bg-elev); border-color: var(--accent); color: var(--text); }
-
-.queue { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; }
-.queue-item {
+.paste-block, .manual-block {
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
 }
-.queue-item header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.queue-item .progress {
-  width: 100%; height: 4px; background: var(--bg-elev-2); border-radius: 2px; overflow: hidden;
+.paste-block h3, .manual-block h3 { margin: 0 0 8px; font-size: 14px; }
+.paste-block .hint { color: var(--text-dim); font-size: 12px; margin: 0 0 8px; }
+.paste-block textarea {
+  width: 100%; min-height: 110px; font-family: monospace; font-size: 12px;
+  resize: vertical; box-sizing: border-box;
 }
-.queue-item .progress > div { height: 100%; background: var(--accent); width: 0%; transition: width .2s; }
-.queue-item .raw {
-  font-family: monospace; font-size: 11px; color: var(--text-dim);
-  background: var(--bg); padding: 8px; border-radius: 4px; max-height: 100px; overflow: auto; white-space: pre-wrap;
-}
+.paste-block .row { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+button.ghost { background: var(--bg-elev-2); border-color: var(--border); color: var(--text); }
 
 .form-grid {
   display: grid;
@@ -120,8 +108,6 @@ button[data-action="cancel"] { background: var(--bg-elev-2); border-color: var(-
 
 .btn { display: inline-block; padding: 6px 10px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
 
-.manual { margin-top: 24px; }
-.manual summary { cursor: pointer; padding: 8px 0; color: var(--text-dim); }
 
 .filters {
   display: flex; flex-wrap: wrap; gap: 12px; align-items: end;

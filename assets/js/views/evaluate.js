@@ -29,7 +29,7 @@
     if (!dl) return;
     Util.clearChildren(dl);
     const matches = await DB.getAll();
-    const set = new Set(Parser.KNOWN_LEAGUES);
+    const set = new Set(Util.KNOWN_LEAGUES);
     for (const m of matches) if (m.league) set.add(m.league);
     for (const lg of Array.from(set).sort()) {
       const o = document.createElement('option');
