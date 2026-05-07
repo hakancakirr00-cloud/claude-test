@@ -15,6 +15,7 @@
       <a href="#/stats" data-route="stats">İstatistik</a>
       <a href="#/report" data-route="report">Rapor</a>
       <a href="#/evaluate" data-route="evaluate">Değerlendir</a>
+      <a href="#/live" data-route="live">Canlı Takip</a>
     </nav>
     <div class="kpi" id="topKpi"></div>
   </header>
@@ -134,6 +135,47 @@
     </section>
   </template>
 
+  <template id="tpl-live">
+    <section class="view view-live">
+      <h2>Canlı Takip <span id="liveConn" class="conn-pill"></span></h2>
+      <p class="hint">
+        İzleme listesindeki maçlar 30 saniyede bir güncellenir. Bir maçın
+        10. dakikasında skor 0-0 ise ve "İY 0.5 Üst" veya "MS 1.5 Üst"
+        oranı belirlenen aralıktaysa satır vurgulanır.
+      </p>
+
+      <section class="live-controls">
+        <form id="liveAddForm" class="row">
+          <label>Fixture ID
+            <input type="number" id="liveFixtureId" placeholder="örn. 1234567" min="1" />
+          </label>
+          <button type="submit">İzlemeye ekle</button>
+          <button type="button" id="liveRefreshBtn" class="ghost">Şimdi yenile</button>
+        </form>
+        <div id="liveWatchList" class="live-watchlist"></div>
+
+        <div class="row live-range">
+          <label>Oran min
+            <input type="number" id="liveOddsMin" step="0.01" min="1" />
+          </label>
+          <label>Oran max
+            <input type="number" id="liveOddsMax" step="0.01" min="1" />
+          </label>
+          <span class="hint">Değişiklik bir sonraki yenilemede uygulanır.</span>
+        </div>
+      </section>
+
+      <table class="match-table live-table">
+        <thead><tr>
+          <th>Maç</th><th>Lig</th><th>Dakika</th><th>Skor</th>
+          <th>Durum</th><th>Tetik</th><th></th>
+        </tr></thead>
+        <tbody id="liveRows"></tbody>
+      </table>
+      <div id="liveEmpty" class="hint"></div>
+    </section>
+  </template>
+
   <template id="tpl-edit-row">
     <tr class="edit-row">
       <td><input type="date" name="matchDate" /></td>
@@ -158,6 +200,7 @@
   <script src="assets/js/views/dashboard.js"></script>
   <script src="assets/js/views/report.js"></script>
   <script src="assets/js/views/evaluate.js"></script>
+  <script src="assets/js/views/live.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>
