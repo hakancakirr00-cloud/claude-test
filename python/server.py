@@ -252,5 +252,16 @@ if __name__ == "__main__":
             "[server] UYARI: API_FOOTBALL_KEY tanımlı değil. "
             ".env dosyanızı doldurun."
         )
-    print("[server] http://127.0.0.1:8000 — durdurmak için Ctrl+C")
-    app.run(host="127.0.0.1", port=8000, debug=False)
+
+    # Varsayılan: sadece bu makineden erişilebilir.
+    # Aynı Wi-Fi'deki telefondan erişmek için BIND_HOST=0.0.0.0 yapın.
+    bind_host = os.getenv("BIND_HOST", "127.0.0.1")
+    bind_port = int(os.getenv("BIND_PORT", "8000"))
+
+    if bind_host == "0.0.0.0":
+        print(
+            "[server] DİKKAT: 0.0.0.0'a bind oldu — yerel ağdaki tüm "
+            "cihazlar bu adrese erişebilir."
+        )
+    print(f"[server] http://{bind_host}:{bind_port} — durdurmak için Ctrl+C")
+    app.run(host=bind_host, port=bind_port, debug=False)
