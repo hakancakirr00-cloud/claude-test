@@ -6,7 +6,8 @@
     list: ViewList.render,
     stats: ViewDashboard.render,
     report: ViewReport.render,
-    evaluate: ViewEvaluate.render
+    evaluate: ViewEvaluate.render,
+    live: ViewLive.render
   };
 
   function currentRoute() {

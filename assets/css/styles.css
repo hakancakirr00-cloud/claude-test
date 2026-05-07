@@ -197,3 +197,86 @@ button[data-action="cancel"] { background: var(--bg-elev-2); border-color: var(-
   .tabs { flex-wrap: wrap; }
   main { padding: 12px; }
 }
+
+/* ---- Canlı Takip ---- */
+
+.conn-pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 999px;
+  margin-left: 12px;
+  vertical-align: middle;
+  border: 1px solid var(--border);
+}
+.conn-pill.conn-idle { color: var(--text-dim); }
+.conn-pill.conn-ok { color: var(--good); border-color: var(--good); }
+.conn-pill.conn-bad { color: var(--bad); border-color: var(--bad); }
+.conn-pill.conn-err { color: var(--warn); border-color: var(--warn); }
+
+.live-controls {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.live-controls .row { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; }
+.live-controls label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--text-dim); }
+.live-controls input { padding: 6px 8px; }
+
+.live-watchlist { display: flex; flex-wrap: wrap; gap: 6px; }
+.watch-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  padding: 3px 4px 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-family: monospace;
+}
+.watch-chip button {
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 6px;
+}
+.watch-chip button:hover { color: var(--bad); }
+
+.live-table .status-pill {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.live-table .status-pill.status-1h,
+.live-table .status-pill.status-2h,
+.live-table .status-pill.status-et { color: var(--good); border-color: var(--good); }
+.live-table .status-pill.status-ht,
+.live-table .status-pill.status-bt { color: var(--warn); border-color: var(--warn); }
+.live-table .status-pill.status-pst,
+.live-table .status-pill.status-canc,
+.live-table .status-pill.status-abd,
+.live-table .status-pill.status-susp,
+.live-table .status-pill.status-int { color: var(--bad); border-color: var(--bad); }
+
+.live-table tr.trigger-row {
+  background: rgba(63, 185, 80, 0.12);
+  box-shadow: inset 3px 0 0 var(--good);
+}
+.live-table tr.trigger-row-faded {
+  background: rgba(63, 185, 80, 0.04);
+  box-shadow: inset 3px 0 0 rgba(63, 185, 80, 0.4);
+}
