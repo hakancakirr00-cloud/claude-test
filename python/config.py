@@ -36,7 +36,27 @@ TELEGRAM_CHAT_ID: str = os.getenv("TELEGRAM_CHAT_ID", "")
 
 # Takip edilecek API-Football fixture ID'leri. Maç ID'sini almak için
 # API-Football'un /fixtures endpoint'ini kullanabilirsiniz.
-WATCH_LIST: list[int] = [
+#
+# Üretimde (örn. Railway) `WATCH_LIST` ortam değişkenini virgülle
+# ayrılmış ID listesi olarak geçebilirsiniz (örn. "12345,67890").
+# Env var verilmemişse aşağıdaki Python listesi kullanılır.
+def _parse_watch_list_env() -> list[int]:
+    raw = os.getenv("WATCH_LIST", "").strip()
+    if not raw:
+        return []
+    ids: list[int] = []
+    for part in raw.split(","):
+        part = part.strip()
+        if not part:
+            continue
+        try:
+            ids.append(int(part))
+        except ValueError:
+            print(f"[config] WATCH_LIST içinde geçersiz ID atlandı: {part}")
+    return ids
+
+
+WATCH_LIST: list[int] = _parse_watch_list_env() or [
     # 1234567,
     # 7654321,
 ]
